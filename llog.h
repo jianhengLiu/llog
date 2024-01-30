@@ -7,6 +7,6 @@ std::string GetAllTimingStatistics(int print_level = 100);
 void PrintAllTimingStatistics(int print_level = 100);
 void Reset();
 void PrintLog(int print_level = 100);
-void SaveLog();
+void SaveLog(const std::string &_save_path);
 
 } // namespace llog

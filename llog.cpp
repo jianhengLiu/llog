@@ -1,4 +1,5 @@
 #include "llog.h"
+#include <fstream>
 #include <vector>
 
 namespace llog {
@@ -13,8 +14,7 @@ TicToc::Ptr CreateTimer(const std::string &name) {
 
 std::string GetAllTimingStatistics(int print_level) {
   std::string str;
-  str +=
-      "Timing Statistics [total time/count = avg. time, this time (ms)]:\n";
+  str += "Timing Statistics [total time/count = avg. time, this time (ms)]:\n";
   for (const auto &it : timers) {
     if (it.first.find_first_not_of(' ') < print_level) {
       str += it.first + ":\t" + std::to_string(it.second->sum() * 1000.0) +
@@ -48,5 +48,9 @@ void Reset() {
 
 void PrintLog(int print_level) { PrintAllTimingStatistics(print_level); }
 
-void SaveLog() {}
+void SaveLog(const std::string &_save_path) {
+  std::ofstream timing_file(_save_path);
+  timing_file << llog::GetAllTimingStatistics();
+  timing_file.close();
+}
 } // namespace llog
