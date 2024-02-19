@@ -52,7 +52,7 @@ void SaveLog(const std::string &_save_path) {
   std::ofstream timing_file(_save_path);
   timing_file << llog::GetAllTimingStatistics();
   timing_file.close();
-  printf("\033[1;32mTiming Statistics saved to %s\n\033[0m",
-         _save_path.c_str());
+  printf("%sTiming Statistics saved to %s\n%s", GREEN.c_str(),
+         _save_path.c_str(), RESET.c_str());
 }
 } // namespace llog
