@@ -1,5 +1,7 @@
 #include "llog/llog.h"
 #include <fstream>
+#include <iomanip>
+#include <sstream>
 #include <unordered_map>
 #include <vector>
 
@@ -85,12 +87,13 @@ std::string FlashValue(const std::string &file_path) {
     value_file << "\n";
   }
 
-  std::string out_string;
+  std::stringstream out_string;
+  out_string << std::setprecision(2);
   for (const auto &value : value_map) {
     value_file << value.second << "\t";
-    out_string += ", " + value.first + ": " + std::to_string(value.second);
+    out_string << ", " << value.first << ": " << value.second;
   }
   value_file << "\n";
-  return out_string;
+  return out_string.str();
 }
 } // namespace llog
