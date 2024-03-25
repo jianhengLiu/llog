@@ -1,5 +1,6 @@
 #include "llog/llog.h"
 #include <fstream>
+#include <unordered_map>
 #include <vector>
 
 namespace llog {
@@ -56,5 +57,40 @@ void SaveLog(const std::string &_save_path) {
   //        _save_path.c_str(), RESET.c_str());
   printf("\033[1;32mTiming Statistics saved to %s\033[0m\n",
          _save_path.c_str());
+}
+
+std::unordered_map<std::string, float> value_map;
+std::ofstream value_file;
+
+void InitValueFile(const std::string &file_path) {
+  if (value_file.is_open()) {
+    value_file.close();
+  }
+  value_file = std::ofstream(file_path);
+  value_map.clear();
+  std::ofstream loss_file(file_path);
+  loss_file.close();
+}
+
+void RecordValue(const std::string &name, const float &value) {
+  value_map[name] = value;
+}
+std::string FlashValue(const std::string &file_path) {
+  if (!value_file.is_open()) {
+    value_file = std::ofstream(file_path);
+
+    for (const auto &value : value_map) {
+      value_file << value.first << "\t";
+    }
+    value_file << "\n";
+  }
+
+  std::string out_string;
+  for (const auto &value : value_map) {
+    value_file << value.second << "\t";
+    out_string += ", " + value.first + ": " + std::to_string(value.second);
+  }
+  value_file << "\n";
+  return out_string;
 }
 } // namespace llog

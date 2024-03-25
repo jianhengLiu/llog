@@ -21,4 +21,7 @@ void Reset();
 void PrintLog(int print_level = 100);
 void SaveLog(const std::string &_save_path);
 
+void InitValueFile(const std::string &file_path);
+void RecordValue(const std::string &name, const float &value);
+std::string FlashValue(const std::string &file_path);
 } // namespace llog
