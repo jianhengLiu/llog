@@ -23,5 +23,6 @@ void SaveLog(const std::string &_save_path);
 
 void InitValueFile(const std::string &file_path);
 void RecordValue(const std::string &name, const float &value);
+float GetValue(const std::string &name);
 std::string FlashValue(const std::string &file_path);
 } // namespace llog

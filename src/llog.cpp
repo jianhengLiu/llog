@@ -77,6 +77,7 @@ void InitValueFile(const std::string &file_path) {
 void RecordValue(const std::string &name, const float &value) {
   value_map[name] = value;
 }
+float GetValue(const std::string &name) { return value_map[name]; }
 std::string FlashValue(const std::string &file_path) {
   if (!value_file.is_open()) {
     value_file = std::ofstream(file_path);
