@@ -78,7 +78,7 @@ void RecordValue(const std::string &name, const float &value) {
   value_map[name] = value;
 }
 float GetValue(const std::string &name) { return value_map[name]; }
-std::string FlashValue(const std::string &file_path) {
+std::string FlashValue(const std::string &file_path, const int &precision) {
   if (!value_file.is_open()) {
     value_file = std::ofstream(file_path);
 
@@ -89,7 +89,7 @@ std::string FlashValue(const std::string &file_path) {
   }
 
   std::stringstream out_string;
-  out_string << std::setprecision(2);
+  out_string << std::setprecision(precision);
   for (const auto &value : value_map) {
     value_file << value.second << "\t";
     out_string << ", " << value.first << ": " << value.second;
