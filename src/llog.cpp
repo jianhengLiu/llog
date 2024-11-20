@@ -62,6 +62,7 @@ void SaveLog(const std::string &_save_path) {
 }
 
 std::unordered_map<std::string, float> value_map;
+std::string file_name;
 std::ofstream value_file;
 
 void InitValueFile(const std::string &file_path) {
@@ -79,8 +80,9 @@ void RecordValue(const std::string &name, const float &value) {
 }
 float GetValue(const std::string &name) { return value_map[name]; }
 std::string FlashValue(const std::string &file_path, const int &precision) {
-  if (!value_file.is_open()) {
+  if (!value_file.is_open() || file_path != file_name) {
     value_file = std::ofstream(file_path);
+    file_name = file_path;
 
     for (const auto &value : value_map) {
       value_file << value.first << "\t";
