@@ -42,6 +42,10 @@ std::string FlashValue(const std::string &file_path, const int &precision = 2);
 
 static std::vector<std::pair<std::string, TicToc::Ptr>> timers;
 
+static std::unordered_map<std::string, float> value_map;
+std::string file_name;
+std::ofstream value_file;
+
 TicToc::Ptr CreateTimer(const std::string &name) {
   TicToc::Ptr timer = std::make_shared<TicToc>();
   timers.emplace_back(name, timer);
@@ -77,9 +81,10 @@ void PrintAllTimingStatistics(int print_level = 100) {
 }
 
 void Reset() {
-  for (auto &timer : timers) {
-    timer.second->reset();
-  }
+  timers.clear();
+  value_map.clear();
+  file_name = "";
+  value_file = std::ofstream();
 }
 
 void PrintLog(int print_level = 100) { PrintAllTimingStatistics(print_level); }
@@ -93,10 +98,6 @@ void SaveLog(const std::string &_save_path) {
   printf("\033[1;32mTiming Statistics saved to %s\033[0m\n",
          _save_path.c_str());
 }
-
-static std::unordered_map<std::string, float> value_map;
-std::string file_name;
-std::ofstream value_file;
 
 void InitValueFile(const std::string &file_path) {
   if (value_file.is_open()) {
