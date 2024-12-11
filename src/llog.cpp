@@ -76,9 +76,20 @@ void InitValueFile(const std::string &file_path) {
   loss_file.close();
 }
 
-void RecordValue(const std::string &name, const float &value) {
-  value_map[name] = value;
+void RecordValue(const std::string &name, const float &value,
+                 const bool &ema_smooth) {
+  if (ema_smooth) {
+    auto iter = value_map.find(name);
+    if (iter != value_map.end()) {
+      iter->second = 0.4f * value + 0.6f * iter->second;
+    } else {
+      value_map[name] = value;
+    }
+  } else {
+    value_map[name] = value;
+  }
 }
+
 float GetValue(const std::string &name) { return value_map[name]; }
 std::string FlashValue(const std::string &file_path, const int &precision) {
   if (!value_file.is_open() || file_path != file_name) {
